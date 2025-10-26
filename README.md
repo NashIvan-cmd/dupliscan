@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Perceptual use case
+- Great to prevent using expensive pipelines for the same image.
+- Weakness: A slight image manipulation such as cropping, size, rotation or color can change the result significantly.
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Ecommerce example
+Seller uploads iphone15.jpg
+    ↓
+Upload to S3/Cloud Storage ($0.023/GB)
+    ↓
+Image optimization API ($$$)
+    • Resize to 5 sizes
+    • WebP conversion
+    • Quality optimization
+    ↓
+Generate thumbnails ($)
+    • 150x150
+    • 300x300
+    • 600x600
+    • 1200x1200
+    ↓
+Store 6 versions × 100 sellers = 600 files ($)
+    ↓
+CDN distribution ($$)
+    ↓
+Database entry ($)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Cost per upload**: ~$0.05-0.15
+**For 100 duplicate uploads**: **$5-15 wasted**
+**Across all products**: **Thousands of dollars monthly**
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## With Perceptual Check
+```
+Seller uploads iphone15.jpg
+    ↓
+Calculate perceptual hash (50ms, FREE)
+    ↓
+Query database for similar hashes
+    ↓
+MATCH FOUND! 96% similar to existing image
+    ↓
+Response: "This product image already exists"
+    ↓
+Option 1: Link to existing image (zero cost)
+Option 2: Allow upload but show warning
+    ↓
+Seller uses existing optimized image
+    ↓
+PIPELINE SKIPPED → $0.15 saved
+```
 
-## Learn More
+**Cost**: ~$0.000001 (hash calculation + DB query)
+**Savings per duplicate**: **$0.15**
+**ROI**: **99.9%+ cost reduction**
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
