@@ -71,4 +71,5 @@ GEMINI_API_KEY=your_gemini_api_key_here
 Notes:
 - For demos the server embeds base64 images in the prompt; for production upload images to storage and pass URLs or use the official multimodal APIs.
 - The server will also fall back to `OPENAI_API_KEY` if `GEMINI_API_KEY` is not set, for compatibility.
+- WARNING: This application eats your gemini token in 2 prompts because of uploading images
 
