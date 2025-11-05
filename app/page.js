@@ -107,7 +107,8 @@ export default function App() {
     if (image1 && image2) {
 
       if (mode === "semantic") {
-        alert("Semantic analysis is not yet implemented.");
+        const response = await openAI(image1, image2);
+        console.log("Semantic Analysis Response:", response);
       }
       try {
         const img1 = await loadImage(image1);
