@@ -104,12 +104,32 @@ export default function App() {
   };
 
   const handleAnalyze = async() => {
-    if (image1 && image2) {
+    if (mode === "semantic") {
+      alert("AI API Free tier is so useless");
+      // try {
+      //   const response = await fetch('/api/semantic', {
+      //     method: 'POST',
+      //     headers: {'Content-Type': 'application/json'},
+      //     body: JSON.stringify({ image1: image1, image2: image2 })
+      //   });
 
-      if (mode === "semantic") {
-        const response = await openAI(image1, image2);
-        console.log("Semantic Analysis Response:", response);
-      }
+      //   if (!response.ok) {
+      //     // If the server returned a non-JSON error or empty body, log the text for debugging
+      //     const text = await response.text();
+      //     console.error('Semantic API error', response.status, text);
+      //   } else {
+      //     const data = await response.json();
+      //     console.log('Semantic response', data);
+      //   }
+      // } catch (err) {
+      //   console.error('Semantic request failed', err);
+      // } finally {
+      //   console.log("Prevents falling to perceptual analysis in semantic mode")
+      //   return;
+      // }
+    }
+    if (image1 && image2) {
+      console.log("Analyzing images in", mode, "mode");
       try {
         const img1 = await loadImage(image1);
         const pixels1 = getPixelData(img1);

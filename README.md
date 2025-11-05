@@ -55,3 +55,20 @@ PIPELINE SKIPPED → $0.15 saved
 **Savings per duplicate**: **$0.15**
 **ROI**: **99.9%+ cost reduction**
 
+
+## Gemini API configuration
+
+This project can use Google Gemini for semantic image comparison on the server.
+
+1. Create a `.env.local` file in the project root (do NOT commit it).
+
+```text
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+2. Restart your Next.js dev server.
+
+Notes:
+- For demos the server embeds base64 images in the prompt; for production upload images to storage and pass URLs or use the official multimodal APIs.
+- The server will also fall back to `OPENAI_API_KEY` if `GEMINI_API_KEY` is not set, for compatibility.
+
